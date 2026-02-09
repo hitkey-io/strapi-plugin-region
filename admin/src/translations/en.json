@@ -1,0 +1,19 @@
+{
+  "label": "Region Select",
+  "description": "Select country and region",
+  "placeholder.country": "Select country...",
+  "placeholder.region": "Select region...",
+  "options.section.countries": "Country filtering",
+  "options.mode.label": "Mode",
+  "options.mode.description": "How to filter the list of available countries",
+  "options.mode.all": "All countries",
+  "options.mode.only": "Only selected",
+  "options.mode.except": "All except selected",
+  "options.countries.label": "Countries",
+  "options.countries.description": "One country code per line (ISO alpha-2, e.g. MV, AE, TR)",
+  "options.countries.placeholder": "MV\nAE\nTR",
+  "clear.country": "Clear country",
+  "clear.region": "Clear region",
+  "options.advanced.requiredField": "Required field",
+  "options.advanced.requiredField.description": "You won't be able to create an entry if this field is empty"
+}

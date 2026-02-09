@@ -1,0 +1,67 @@
+{
+  "name": "@hitkey-io/strapi-plugin-region",
+  "version": "1.0.0",
+  "description": "Strapi 5 custom field for selecting country and region",
+  "license": "MIT",
+  "author": "Nikolay Larsen <nikolay@velkomb.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitkey-io/strapi-plugin-region.git"
+  },
+  "homepage": "https://github.com/hitkey-io/strapi-plugin-region#readme",
+  "bugs": {
+    "url": "https://github.com/hitkey-io/strapi-plugin-region/issues"
+  },
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "strapi5",
+    "custom-field",
+    "country",
+    "region",
+    "geo"
+  ],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "source": "./admin/src/index.ts",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "strapi-admin.js",
+    "strapi-server.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "strapi": {
+    "kind": "plugin",
+    "name": "strapi-plugin-region",
+    "displayName": "Region Select"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@strapi/sdk-plugin": "^5.3.2"
+  },
+  "peerDependencies": {
+    "@strapi/design-system": "^2.0.0 || ^2.0.0-rc",
+    "@strapi/icons": "^2.0.0 || ^2.0.0-rc",
+    "@radix-ui/react-tooltip": "^1.0.0",
+    "@strapi/strapi": "^5.0.0 || ^5.0.0-rc",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-intl": "^6.0.0",
+    "styled-components": "^6.0.0"
+  }
+}
