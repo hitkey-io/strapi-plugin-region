@@ -1,6 +1,6 @@
 {
   "name": "@hitkey-io/strapi-plugin-region",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "Strapi 5 custom field for selecting country and region",
   "license": "MIT",
   "author": "Nikolay Larsen <nikolay@velkomb.com>",
@@ -42,6 +42,9 @@
     "strapi-admin.js",
     "strapi-server.js"
   ],
+  "scripts": {
+    "prepublishOnly": "npx @strapi/sdk-plugin build"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -50,14 +53,16 @@
     "name": "strapi-plugin-region",
     "displayName": "Region Select"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@strapi/sdk-plugin": "^5.3.2"
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@strapi/sdk-plugin": "^5.3.2",
+    "semantic-release": "^25.0.3"
   },
   "peerDependencies": {
+    "@radix-ui/react-tooltip": "^1.0.0",
     "@strapi/design-system": "^2.0.0 || ^2.0.0-rc",
     "@strapi/icons": "^2.0.0 || ^2.0.0-rc",
-    "@radix-ui/react-tooltip": "^1.0.0",
     "@strapi/strapi": "^5.0.0 || ^5.0.0-rc",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

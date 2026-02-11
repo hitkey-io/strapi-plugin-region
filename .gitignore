@@ -1,4 +1,3 @@
 node_modules/
 .strapi/
 dist/
-package-lock.json
