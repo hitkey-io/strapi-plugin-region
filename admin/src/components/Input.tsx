@@ -107,6 +107,7 @@ const Input = forwardRef<HTMLDivElement, InputProps>((props, ref) => {
         <Grid.Item col={6} s={12} xs={12} direction="column" alignItems="stretch">
           <Combobox
             value={selectedCountry}
+            textValue={countryData?.countryName ?? ''}
             onChange={handleCountryChange}
             onClear={() => handleCountryChange(undefined)}
             clearLabel={formatMessage({
@@ -132,6 +133,7 @@ const Input = forwardRef<HTMLDivElement, InputProps>((props, ref) => {
             <Combobox
               key={selectedCountry}
               value={selectedRegion}
+              textValue={regionData?.name ?? ''}
               onChange={handleRegionChange}
               onClear={() => {
                 onChange({
