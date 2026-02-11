@@ -1,6 +1,6 @@
 {
   "name": "@hitkey-io/strapi-plugin-region",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Strapi 5 custom field for selecting country and region",
   "license": "MIT",
   "author": "Nikolay Larsen <nikolay@velkomb.com>",
