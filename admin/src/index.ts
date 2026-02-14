@@ -1,8 +1,11 @@
 import { createElement } from 'react';
+import * as yup from 'yup';
 import Icon from './components/Icon';
 import CellRenderer from './components/CellRenderer';
+import countries from './data/countries.json';
 
 const PLUGIN_ID = 'strapi-plugin-region';
+const VALID_COUNTRY_CODES = new Set(countries.map((c) => c.countryShortCode.toUpperCase()));
 
 export default {
   register(app: any) {
@@ -23,6 +26,48 @@ export default {
         Input: async () => import('./components/Input'),
       },
       options: {
+        validator: () => ({
+          countries: yup.array().test(
+            'countries-valid-codes',
+            '',
+            function (values) {
+              if (!values || !Array.isArray(values)) return true;
+              for (const val of values) {
+                if (!val || !val.trim()) continue;
+                const cc = val.trim().toUpperCase();
+                if (!VALID_COUNTRY_CODES.has(cc)) {
+                  return this.createError({
+                    message: `Unknown country code: ${cc}`,
+                  });
+                }
+              }
+              return true;
+            }
+          ),
+          regionOverrides: yup.array().test(
+            'region-overrides-format',
+            '',
+            function (values) {
+              if (!values || !Array.isArray(values)) return true;
+              for (const val of values) {
+                if (!val || !val.trim()) continue;
+                const trimmed = val.trim();
+                if (!/^[A-Za-z]{2}:[A-Za-z0-9]+:.+$/.test(trimmed)) {
+                  return this.createError({
+                    message: `Each line must match CC:code:Name (e.g. TR:ALN:Alanya)`,
+                  });
+                }
+                const cc = trimmed.split(':')[0].toUpperCase();
+                if (!VALID_COUNTRY_CODES.has(cc)) {
+                  return this.createError({
+                    message: `Unknown country code: ${cc}`,
+                  });
+                }
+              }
+              return true;
+            }
+          ),
+        }),
         base: [
           {
             sectionTitle: {
@@ -93,6 +138,31 @@ export default {
               },
             ],
           },
+          {
+            sectionTitle: {
+              id: `${PLUGIN_ID}.options.section.regionOverrides`,
+              defaultMessage: 'Region overrides',
+            },
+            items: [
+              {
+                name: 'options.regionOverrides',
+                type: 'textarea-enum',
+                intlLabel: {
+                  id: `${PLUGIN_ID}.options.regionOverrides.label`,
+                  defaultMessage: 'Region overrides',
+                },
+                description: {
+                  id: `${PLUGIN_ID}.options.regionOverrides.description`,
+                  defaultMessage:
+                    'One entry per line: CC:code:Name (e.g. TR:ALN:Alanya). Replaces default regions for that country.',
+                },
+                placeholder: {
+                  id: `${PLUGIN_ID}.options.regionOverrides.placeholder`,
+                  defaultMessage: 'TR:ALN:Alanya\nTR:ANT:Antalya\nTR:KMR:Kemer',
+                },
+              },
+            ],
+          },
         ],
         advanced: [
           {
@@ -137,7 +207,10 @@ export default {
           return {
             ...header,
             cellFormatter: (props: any, _header: any, _meta: any) =>
-              createElement(CellRenderer, { value: props[header.name] }),
+              createElement(CellRenderer, {
+                value: props[header.name],
+                regionOverrides: header.attribute?.options?.regionOverrides,
+              }),
           };
         }),
         layout,

@@ -8,9 +8,10 @@ interface RegionValue {
 
 interface CellRendererProps {
   value: RegionValue | string | null;
+  regionOverrides?: string[];
 }
 
-const CellRenderer = ({ value }: CellRendererProps) => {
+const CellRenderer = ({ value, regionOverrides }: CellRendererProps) => {
   const { countries, loading } = useCountries();
 
   const parsed: RegionValue | null =
@@ -31,9 +32,18 @@ const CellRenderer = ({ value }: CellRendererProps) => {
   const countryName = countryData?.countryName ?? parsed.country;
 
   let display = countryName;
-  if (parsed.region && countryData) {
-    const regionData = countryData.regions.find((r) => r.shortCode === parsed.region);
-    display += `, ${regionData?.name ?? parsed.region}`;
+  if (parsed.region) {
+    let regionName: string | undefined;
+    if (Array.isArray(regionOverrides)) {
+      const prefix = `${parsed.country}:${parsed.region}:`;
+      const match = regionOverrides.find((line) => line.startsWith(prefix));
+      if (match) regionName = match.slice(prefix.length).trim();
+    }
+    if (!regionName && countryData) {
+      const regionData = countryData.regions.find((r) => r.shortCode === parsed.region);
+      regionName = regionData?.name;
+    }
+    display += `, ${regionName ?? parsed.region}`;
   }
 
   return <Typography textColor="neutral800">{display}</Typography>;

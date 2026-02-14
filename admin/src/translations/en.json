@@ -14,6 +14,10 @@
   "options.countries.placeholder": "MV\nAE\nTR",
   "clear.country": "Clear country",
   "clear.region": "Clear region",
+  "options.section.regionOverrides": "Region overrides",
+  "options.regionOverrides.label": "Region overrides",
+  "options.regionOverrides.description": "One entry per line: CC:code:Name (e.g. TR:ALN:Alanya). Replaces default regions for that country.",
+  "options.regionOverrides.placeholder": "TR:ALN:Alanya\nTR:ANT:Antalya\nTR:KMR:Kemer",
   "options.advanced.requiredField": "Required field",
   "options.advanced.requiredField.description": "You won't be able to create an entry if this field is empty"
 }
