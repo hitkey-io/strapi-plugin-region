@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png" alt="Region Select" width="120" />
+  <img src="https://raw.githubusercontent.com/hitkey-io/strapi-plugin-region/master/docs/logo.png" alt="Region Select" width="120" />
 </p>
 
 # Strapi Plugin Region
@@ -10,7 +10,7 @@ Cascading **Country → Region** selector as a Strapi 5 custom field. Pick a cou
 [![Strapi 5](https://img.shields.io/badge/strapi-v5.x-blueviolet.svg)](https://strapi.io)
 
 <p align="center">
-  <img src="docs/screenshots/02-region-selector.jpeg" alt="Country and Region selector with autocomplete" width="720" />
+  <img src="https://raw.githubusercontent.com/hitkey-io/strapi-plugin-region/master/docs/screenshots/02-region-selector.jpeg" alt="Country and Region selector with autocomplete" width="720" />
 </p>
 
 ## Features
@@ -38,7 +38,7 @@ yarn add @hitkey-io/strapi-plugin-region
 ## Configuration
 
 <p align="center">
-  <img src="docs/screenshots/01-field-options.png" alt="Field options in Content-Type Builder" width="720" />
+  <img src="https://raw.githubusercontent.com/hitkey-io/strapi-plugin-region/master/docs/screenshots/01-field-options.png" alt="Field options in Content-Type Builder" width="720" />
 </p>
 
 ### Adding the field
@@ -74,7 +74,7 @@ TR:KMR:Kemer
 This replaces **all** default regions for that country (`TR` in this case) with only the listed ones. Countries without overrides keep their default region lists.
 
 <p align="center">
-  <img src="docs/screenshots/03-region-overrides.jpg" alt="Region overrides in Content-Type Builder" width="720" />
+  <img src="https://raw.githubusercontent.com/hitkey-io/strapi-plugin-region/master/docs/screenshots/03-region-overrides.jpg" alt="Region overrides in Content-Type Builder" width="720" />
 </p>
 
 ### Plugin config
