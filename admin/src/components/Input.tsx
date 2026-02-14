@@ -25,6 +25,7 @@ interface InputProps {
     options?: {
       mode?: string;
       countries?: string[];
+      regionOverrides?: string[];
     };
     [key: string]: any;
   };
@@ -41,6 +42,27 @@ const Input = forwardRef<HTMLDivElement, InputProps>((props, ref) => {
     if (!Array.isArray(raw)) return [];
     return raw.map((c: string) => c.trim().toUpperCase()).filter(Boolean);
   }, [attribute?.options?.countries]);
+
+  const overridesMap = useMemo(() => {
+    const map = new Map<string, Array<{ name: string; shortCode: string }>>();
+    const raw = attribute?.options?.regionOverrides;
+    if (!Array.isArray(raw)) return map;
+    for (const line of raw) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+      const firstColon = trimmed.indexOf(':');
+      if (firstColon === -1) continue;
+      const secondColon = trimmed.indexOf(':', firstColon + 1);
+      if (secondColon === -1) continue;
+      const countryCode = trimmed.slice(0, firstColon).trim().toUpperCase();
+      const shortCode = trimmed.slice(firstColon + 1, secondColon).trim();
+      const regionName = trimmed.slice(secondColon + 1).trim();
+      if (!countryCode || !shortCode || !regionName) continue;
+      if (!map.has(countryCode)) map.set(countryCode, []);
+      map.get(countryCode)!.push({ name: regionName, shortCode });
+    }
+    return map;
+  }, [attribute?.options?.regionOverrides]);
 
   const parsed: RegionValue | null = useMemo(() => {
     if (!value) return null;
@@ -72,10 +94,15 @@ const Input = forwardRef<HTMLDivElement, InputProps>((props, ref) => {
     () => allCountries.find((c) => c.countryShortCode === selectedCountry) ?? null,
     [selectedCountry, allCountries]
   );
-  const regions = countryData?.regions ?? [];
+  const hasCustomRegions = selectedCountry ? overridesMap.has(selectedCountry) : false;
+  const effectiveRegions = useMemo(() => {
+    if (!selectedCountry) return [];
+    if (hasCustomRegions) return overridesMap.get(selectedCountry)!;
+    return countryData?.regions ?? [];
+  }, [selectedCountry, hasCustomRegions, overridesMap, countryData]);
   const regionData = useMemo(
-    () => regions.find((r) => r.shortCode === selectedRegion) ?? null,
-    [selectedRegion, regions]
+    () => effectiveRegions.find((r) => r.shortCode === selectedRegion) ?? null,
+    [selectedRegion, effectiveRegions]
   );
 
   const handleCountryChange = (countryCode: string | undefined) => {
@@ -128,7 +155,7 @@ const Input = forwardRef<HTMLDivElement, InputProps>((props, ref) => {
             ))}
           </Combobox>
         </Grid.Item>
-        {selectedCountry && regions.length > 0 && (
+        {selectedCountry && effectiveRegions.length > 0 && (
           <Grid.Item col={6} s={12} xs={12} direction="column" alignItems="stretch">
             <Combobox
               key={selectedCountry}
@@ -155,7 +182,7 @@ const Input = forwardRef<HTMLDivElement, InputProps>((props, ref) => {
               })}
               autocomplete={{ type: 'both', filter: 'startsWith' }}
             >
-              {regions.map((r) => (
+              {effectiveRegions.map((r) => (
                 <ComboboxOption key={r.shortCode} value={r.shortCode}>
                   {r.name}
                 </ComboboxOption>
