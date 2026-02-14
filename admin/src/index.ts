@@ -225,7 +225,10 @@ export default {
       try {
         const data = await import(`./translations/${locale}.json`);
         importedTrads.push({
-          data: prefixPluginTranslations(data.default || data),
+          data: {
+            ...prefixPluginTranslations(data.default || data),
+            [`global.plugins.${PLUGIN_ID}.description`]: (data.default || data).description || '',
+          },
           locale,
         });
       } catch {
